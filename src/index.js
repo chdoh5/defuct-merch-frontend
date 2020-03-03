@@ -63,15 +63,18 @@ const fetchOneProduct = () => {
 }
 
 const renderOneProduct = (oneProductData) => {
+    const addToCartButton = document.getElementById('add-to-cart')
     const productInfo = oneProductData.data.attributes
     const oneProductDetailCard = `<h1>${productInfo.name}</h1>
     <img src=${productInfo.image_url} >
     <h3>$${productInfo.price}</h3>
     <p>${productInfo.description}</p>
     <a class="nav-link" href="#product-detail">
-    <button id="add-to-cart" data-id=${productInfo.id} class="btn btn-info">
+    <button id="add-to-cart" data-id=${oneProductData.data.id} class="btn btn-info">
       Add to Cart
     </button></a>`
+    
+    
     productDetailContainer.innerHTML = oneProductDetailCard
     
 }
@@ -148,8 +151,6 @@ const fetchCarts = () => {
 }
 
 const renderCarts = (cartData) => {
-    // const userList = currentUserData.filter(data => data.username == userInput.value)
-
     const currentCart = cartData.filter(data => data.user_id === user[0].id)
     currentCart.forEach(cart => {
         const li = `<li>${cart.product.name}</li>`
@@ -160,11 +161,59 @@ const renderCarts = (cartData) => {
 
 }
 
+const postCart = () => {
+    event.preventDefault()
+    const clicked = event.target
+    const user_id = user[0].id
+    const product_id = clicked.dataset.id
+    
+    if(clicked.id==='add-to-cart') {
+        fetch('http://localhost:3000/carts', createNewCartObj(user_id, product_id) )
+            .then( resp => resp.json() )
+            .then( newCartData => console.log(newCartData) )
+    }
+
+}
+
+// const createNewCartObj = (user_id, product_id) => {
+//     return {
+//         method: "POST",
+//         headers: {
+//             "Content-Type": "application/json",
+//             "Accept": "application"
+//         },
+//         body: JSON.stringify({
+//             user_id: user_id,
+//             product_id: product_id
+//         })
+//     }
+// }
+
+function createNewCartObj(user_id, product_id) {
+    return {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify({
+        user_id: user_id,
+        product_id: product_id
+      })
+    }
+  }
+
+const renderNewCart = (newCartData) => {
+
+}
+
+
 
 //event listeners
 loginButton.addEventListener('click', fetchCurrentUser)
 container.addEventListener('click', fetchOneProduct)
 dropdownButton.addEventListener('click', fetchCarts)
+productDetailContainer.addEventListener('click', postCart )
 
 //run it 
 fetchProducts()
