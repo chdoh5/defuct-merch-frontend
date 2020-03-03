@@ -10,6 +10,8 @@ const loginForm = document.getElementById('login-form');
 const productDetailContainer = document.getElementById('product-detail')
 const cartDropdown = document.getElementById('cart-dropdown')
 const dropdownButton = document.getElementById('navbarDropdown')
+const cartItemList = document.getElementById('cart-item-list')
+
 
 const fetchProducts =() => {
     
@@ -138,6 +140,7 @@ const renderNewUser = (newUserData) => {
 }
 
 const fetchCarts = () => {
+    cartItemList.innerHTML = []
     fetch('http://localhost:3000/carts')
         .then(resp => resp.json() )
         .then( cartData => renderCarts(cartData) )
@@ -145,6 +148,15 @@ const fetchCarts = () => {
 }
 
 const renderCarts = (cartData) => {
+    // const userList = currentUserData.filter(data => data.username == userInput.value)
+
+    const currentCart = cartData.filter(data => data.user_id === user[0].id)
+    currentCart.forEach(cart => {
+        const li = `<li>${cart.product.name}</li>`
+        
+        cartItemList.innerHTML += li
+        
+    })
 
 }
 
@@ -152,7 +164,7 @@ const renderCarts = (cartData) => {
 //event listeners
 loginButton.addEventListener('click', fetchCurrentUser)
 container.addEventListener('click', fetchOneProduct)
-// dropdownButton.addEventListener('click', fetchCarts)
+dropdownButton.addEventListener('click', fetchCarts)
 
 //run it 
 fetchProducts()
