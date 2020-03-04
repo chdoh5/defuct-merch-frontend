@@ -3,7 +3,7 @@ const container = document.querySelector(".row");
 const row = document.getElementById("first-row");
 let card;
 let user = "";
-let userList
+let userList;
 let username;
 const userInput = document.getElementById("login-input");
 const loginButton = document.getElementById("login-submit");
@@ -12,7 +12,7 @@ const productDetailContainer = document.getElementById("product-detail");
 const cartDropdown = document.getElementById("cart-dropdown");
 const dropdownButton = document.getElementById("navbarDropdown");
 const cartItemList = document.getElementById("cart-item-list");
-const signoutButton = document.getElementById('signout')
+const signoutButton = document.getElementById("signout");
 
 const fetchProducts = () => {
   fetch("http://localhost:3000/products")
@@ -44,7 +44,7 @@ const renderProducts = product => {
                     </div>
                 </div>
                 <ul class="social">
-                    <li class="see-more-button"> <a  data-id=${product.id} class="see-more-button" data-tip="Quick View"><i class="fa fa-search" ></i></a></li>
+                    <li class="see-more-button"> <a  data-id=${product.id} id="hi" data-tip="Quick View"><i  data-id=${product.id} class="fa fa-search" ></i></a></li>
                 </ul>
             </div>
         </div>`;
@@ -68,7 +68,11 @@ const renderProducts = product => {
 const fetchOneProduct = () => {
   const clicked = event.target;
   const productId = clicked.dataset.id;
-  if (clicked.className == "see-more-button") {
+  console.log(clicked);
+  if (
+    clicked.className === "see-more-button" ||
+    clicked.parentElement.id === "hi"
+  ) {
     fetch(`http://localhost:3000/products/${productId}`)
       .then(resp => resp.json())
       .then(oneProductData => renderOneProduct(oneProductData));
@@ -109,9 +113,7 @@ const fetchCurrentUser = () => {
   }
 };
 const renderCurrentUser = currentUserData => {
-   userList = currentUserData.filter(
-    data => data.username == userInput.value
-  );
+  userList = currentUserData.filter(data => data.username == userInput.value);
   user = userList;
   if (userList[0]) {
     loginForm.innerHTML = `Welcome Back ${username}!&emsp;</bur><button id="signout"><a href="javascript:window.location.reload(true)">Sign Out</a></button>`;
@@ -123,8 +125,6 @@ const postNewUser = () => {
   fetch("http://localhost:3000/users", createNewUser(username))
     .then(resp => resp.json())
     .then(newUserData => renderNewUser(newUserData));
-    
-    
 };
 function createNewUser(username) {
   return {
@@ -139,62 +139,52 @@ function createNewUser(username) {
   };
 }
 const renderNewUser = newUserData => {
-    userList.push(newUserData)
+  userList.push(newUserData);
   loginForm.innerHTML = `Welcome ${username}!!&emsp;</bur><button id="signout"><a href="javascript:window.location.reload(true)">Sign Out</a></button>`;
 };
 const fetchCarts = () => {
-    if(user=="") {
-        cartItemList.innerText = "Cart Empty"
-    } else {
-  cartItemList.innerHTML = [];
-  fetch("http://localhost:3000/carts")
-    .then(resp => resp.json())
-    .then(cartData => renderCarts(cartData));
-    }
+  if (user == "") {
+    cartItemList.innerText = "Cart Empty";
+  } else {
+    cartItemList.innerHTML = [];
+    fetch("http://localhost:3000/carts")
+      .then(resp => resp.json())
+      .then(cartData => renderCarts(cartData));
+  }
 };
 const renderCarts = cartData => {
-  const currentCart = cartData.filter(data => data.user_id === user[0].id)
-  if(!currentCart[0]) {
-      cartItemList.innerText = "Cart Empty"
+  const currentCart = cartData.filter(data => data.user_id === user[0].id);
+  if (!currentCart[0]) {
+    cartItemList.innerText = "Cart Empty";
   } else {
-  currentCart.forEach(cart => {
-    const li = `<li>${cart.product.name}<button class="delete" data-id="${cart.id}">Delete</button></li>`;
-    cartItemList.innerHTML += li;
-  
-  });
-}
+    currentCart.forEach(cart => {
+      const li = `<li>${cart.product.name}<button class="delete" data-id="${cart.id}">Delete</button></li>`;
+      cartItemList.innerHTML += li;
+    });
+  }
 };
 const postCart = () => {
-    if(user=="") {
-        alert("Please sign in")
-    } else {
-  event.preventDefault();
-  const clicked = event.target;
-  const user_id = user[0].id;
-  const product_id = clicked.dataset.id;
-  
-  if (clicked.id === "add-to-cart") {
-    fetch("http://localhost:3000/carts", createNewCartObj(user_id, product_id))
-      .then(resp => resp.json())
-      .then(newCartData => console.log(newCartData));
+  if (user == "") {
+    alert("Please sign in");
+  } else {
+    event.preventDefault();
+    const clicked = event.target;
+    const user_id = user[0].id;
+    const product_id = clicked.dataset.id;
+
+    if (clicked.id === "add-to-cart") {
+      fetch(
+        "http://localhost:3000/carts",
+        createNewCartObj(user_id, product_id)
+      )
+        .then(resp => resp.json())
+        .then(newCartData => console.log(newCartData));
     }
-  alert("Added to Cart!")
-    }
-}
-// const createNewCartObj = (user_id, product_id) => {
-//     return {
-//         method: "POST",
-//         headers: {
-//             "Content-Type": "application/json",
-//             "Accept": "application"
-//         },
-//         body: JSON.stringify({
-//             user_id: user_id,
-//             product_id: product_id
-//         })
-//     }
-// }
-function createNewCartObj(user_id, product_id) {
+    alert("Added to Cart!");
+  }
+};
+const createNewCartObj = (user_id, product_id) => {
+  console.log("here");
   return {
     method: "POST",
     headers: {
@@ -206,58 +196,68 @@ function createNewCartObj(user_id, product_id) {
       product_id: product_id
     })
   };
-}
-// const renderNewCart = newCartData => {};
+};
+
+// function createNewCartObj(user_id, product_id) {
+//   return {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//       Accept: "application/json"
+//     },
+//     body: JSON.stringify({
+//       user_id: user_id,
+//       product_id: product_id
+//     })
+//   };
+// }
+// // const renderNewCart = newCartData => {};
 
 const deleteCart = () => {
-    clicked=event.target
-    const cartId = parseInt(clicked.dataset.id)
-    
-    if(clicked.className==="delete") {
-        fetch(`http://localhost:3000/carts/${cartId}`, createDeleteObj() )
-            .then( resp => resp.json() )
-            .then( deleteData => renderDelete(deleteData) )
-    }
-}
+  clicked = event.target;
+  const cartId = parseInt(clicked.dataset.id);
+
+  if (clicked.className === "delete") {
+    fetch(`http://localhost:3000/carts/${cartId}`, createDeleteObj())
+      .then(resp => resp.json())
+      .then(deleteData => renderDelete(deleteData));
+  }
+};
 
 const createDeleteObj = () => {
-    return {
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-        }
+  return {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json"
+    }
+  };
+};
 
-    }   
-
-}
-
-const renderDelete = (deleteData) => {
-    console.log("Deleted")
-}
+const renderDelete = deleteData => {
+  console.log("Deleted");
+};
 
 const signout = () => {
-    const clicked = event.target
-    if(clicked.id=="signout") {
-        user = ""
-        loginForm.innerHTML = `<form id="login-form" class="form-inline my-2 my-lg-0">
+  const clicked = event.target;
+  if (clicked.id == "signout") {
+    user = "";
+    loginForm.innerHTML = `<form id="login-form" class="form-inline my-2 my-lg-0">
         <input class="form-control mr-sm-2" id="login-input" type="text" placeholder="Login" aria-label="Login">
         <button id="login-submit" class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
-      </form>`
-    }
-}
+      </form>`;
+  }
+};
 
 //event listeners
 loginButton.addEventListener("click", fetchCurrentUser);
 container.addEventListener("click", fetchOneProduct);
 dropdownButton.addEventListener("click", fetchCarts);
 productDetailContainer.addEventListener("click", postCart);
-cartItemList.addEventListener('click', deleteCart)
-loginForm.addEventListener('click', signout)
+cartItemList.addEventListener("click", deleteCart);
+loginForm.addEventListener("click", signout);
 //run it
 fetchProducts();
-
-
 
 //  <li>
 //    <a href="" data-tip="Add to Cart">
