@@ -150,17 +150,22 @@ const renderCarts = cartData => {
   });
 };
 const postCart = () => {
+    if(user=="") {
+        alert("Please sign in")
+    } else {
   event.preventDefault();
   const clicked = event.target;
   const user_id = user[0].id;
   const product_id = clicked.dataset.id;
+  
   if (clicked.id === "add-to-cart") {
     fetch("http://localhost:3000/carts", createNewCartObj(user_id, product_id))
       .then(resp => resp.json())
       .then(newCartData => console.log(newCartData));
-  }
+    }
   alert("Added to Cart!")
-};
+    }
+}
 // const createNewCartObj = (user_id, product_id) => {
 //     return {
 //         method: "POST",
@@ -208,7 +213,7 @@ const createDeleteObj = () => {
             "Accept": "application/json"
         }
 
-    }
+    }   
 
 }
 
