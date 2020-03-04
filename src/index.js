@@ -143,17 +143,26 @@ const renderNewUser = newUserData => {
   loginForm.innerHTML = `Welcome ${username}!!&emsp;</bur><button id="signout"><a href="javascript:window.location.reload(true)">Sign Out</a></button>`;
 };
 const fetchCarts = () => {
+    if(user=="") {
+        cartItemList.innerText = "Cart Empty"
+    } else {
   cartItemList.innerHTML = [];
   fetch("http://localhost:3000/carts")
     .then(resp => resp.json())
     .then(cartData => renderCarts(cartData));
+    }
 };
 const renderCarts = cartData => {
-  const currentCart = cartData.filter(data => data.user_id === user[0].id);
+  const currentCart = cartData.filter(data => data.user_id === user[0].id)
+  if(!currentCart[0]) {
+      cartItemList.innerText = "Cart Empty"
+  } else {
   currentCart.forEach(cart => {
     const li = `<li>${cart.product.name}<button class="delete" data-id="${cart.id}">Delete</button></li>`;
     cartItemList.innerHTML += li;
+  
   });
+}
 };
 const postCart = () => {
     if(user=="") {
