@@ -13,7 +13,7 @@ h6 {
 p {
   font-family: "Montserrat";
   text-align: center;
-  color: #fff;
+  color:black;
 }
 /* Headings */
 .big-heading {
@@ -33,8 +33,8 @@ p {
 
 /* Sections */
 .colored-section {
-  background-color: #ff4c68;
-  color: #fff;
+  background-color: whitesmoke;
+  color: black;
 }
 /* .white-section {
     background-color: #ff4c68; */
@@ -62,8 +62,8 @@ p {
 }
 /* Title Section */
 #title {
-  background-color: #ff4c68;
-  color: #fff;
+  background-color: whitesmoke;
+  color: black;
   text-align: left;
 }
 #title .container-fluid {
@@ -141,7 +141,7 @@ p {
   display: inline-block;
 }
 .product-grid6 .social {
-  background-color: #fff;
+  background-color: whitesmoke;
   width: 100%;
   padding: 0;
   margin: 0;
@@ -176,14 +176,14 @@ p {
   transition: all 0.3s ease-in-out;
 }
 .product-grid6 .social li a:hover {
-  color: #fff;
+  color: black;
   background-color: #2e86de;
   width: 80px;
 }
 .product-grid6 .social li a:after,
 .product-grid6 .social li a:before {
   content: attr(data-tip);
-  color: #fff;
+  color: black;
   background-color: #2e86de;
   font-size: 12px;
   letter-spacing: 1px;
