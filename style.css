@@ -13,7 +13,7 @@ h6 {
 p {
   font-family: "Montserrat";
   text-align: center;
-  color:black;
+  color: black;
 }
 /* Headings */
 .big-heading {
@@ -29,6 +29,7 @@ p {
 /* Containers */
 .container-fluid {
   padding: 7% 15%;
+  text-align: center;
 }
 
 /* Sections */
@@ -214,4 +215,10 @@ p {
   .product-grid6 {
     margin-bottom: 30px;
   }
+}
+
+/* Footer Section */
+
+.social-icon {
+  margin: 20px 10px;
 }
