@@ -3,6 +3,7 @@ const container = document.querySelector(".row");
 const row = document.getElementById("first-row");
 let card;
 let user = "";
+let userList
 let username;
 const userInput = document.getElementById("login-input");
 const loginButton = document.getElementById("login-submit");
@@ -11,6 +12,8 @@ const productDetailContainer = document.getElementById("product-detail");
 const cartDropdown = document.getElementById("cart-dropdown");
 const dropdownButton = document.getElementById("navbarDropdown");
 const cartItemList = document.getElementById("cart-item-list");
+const signoutButton = document.getElementById('signout')
+
 const fetchProducts = () => {
   fetch("http://localhost:3000/products")
     .then(resp => resp.json())
@@ -106,12 +109,12 @@ const fetchCurrentUser = () => {
   }
 };
 const renderCurrentUser = currentUserData => {
-  const userList = currentUserData.filter(
+   userList = currentUserData.filter(
     data => data.username == userInput.value
   );
   user = userList;
   if (userList[0]) {
-    loginForm.innerHTML = `Welcome Back ${username}!`;
+    loginForm.innerHTML = `Welcome Back ${username}!&emsp;</bur><button id="signout"><a href="javascript:window.location.reload(true)">Sign Out</a></button>`;
   } else {
     postNewUser();
   }
@@ -120,6 +123,8 @@ const postNewUser = () => {
   fetch("http://localhost:3000/users", createNewUser(username))
     .then(resp => resp.json())
     .then(newUserData => renderNewUser(newUserData));
+    
+    
 };
 function createNewUser(username) {
   return {
@@ -134,7 +139,8 @@ function createNewUser(username) {
   };
 }
 const renderNewUser = newUserData => {
-  loginForm.innerHTML = `Welcome ${username}!`;
+    userList.push(newUserData)
+  loginForm.innerHTML = `Welcome ${username}!!&emsp;</bur><button id="signout"><a href="javascript:window.location.reload(true)">Sign Out</a></button>`;
 };
 const fetchCarts = () => {
   cartItemList.innerHTML = [];
@@ -221,12 +227,24 @@ const renderDelete = (deleteData) => {
     console.log("Deleted")
 }
 
+const signout = () => {
+    const clicked = event.target
+    if(clicked.id=="signout") {
+        user = ""
+        loginForm.innerHTML = `<form id="login-form" class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" id="login-input" type="text" placeholder="Login" aria-label="Login">
+        <button id="login-submit" class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
+      </form>`
+    }
+}
+
 //event listeners
 loginButton.addEventListener("click", fetchCurrentUser);
 container.addEventListener("click", fetchOneProduct);
 dropdownButton.addEventListener("click", fetchCarts);
 productDetailContainer.addEventListener("click", postCart);
 cartItemList.addEventListener('click', deleteCart)
+loginForm.addEventListener('click', signout)
 //run it
 fetchProducts();
 
