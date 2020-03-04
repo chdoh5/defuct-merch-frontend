@@ -34,9 +34,9 @@ const renderProducts = product => {
     const card = `<div class="col-md-3 col-sm-6">
             <div class="product-grid6">
                 <div class="product-image6">
-                    <a href="#">
+                    
                         <img class="pic-1" src=${product.image_url}>
-                    </a>
+                    
                 </div>
                 <div class="product-content">
                     <h3 class="title"><a href="#">${product.name}</a></h3>
@@ -165,11 +165,13 @@ const renderCarts = cartData => {
 }
 };
 const postCart = () => {
+    const clicked = event.target
+    if (clicked.id === "add-to-cart") {
     if(user=="") {
         alert("Please sign in")
     } else {
   event.preventDefault();
-  const clicked = event.target;
+  
   const user_id = user[0].id;
   const product_id = clicked.dataset.id;
   
@@ -180,6 +182,7 @@ const postCart = () => {
     }
   alert("Added to Cart!")
     }
+}
 }
 // const createNewCartObj = (user_id, product_id) => {
 //     return {
