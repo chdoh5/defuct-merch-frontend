@@ -145,21 +145,27 @@ const fetchCarts = () => {
 const renderCarts = cartData => {
   const currentCart = cartData.filter(data => data.user_id === user[0].id);
   currentCart.forEach(cart => {
-    const li = `<li>${cart.product.name}</li>`;
+    const li = `<li>${cart.product.name}<button class="delete" data-id="${cart.id}">Delete</button></li>`;
     cartItemList.innerHTML += li;
   });
 };
 const postCart = () => {
+    if(user=="") {
+        alert("Please sign in")
+    } else {
   event.preventDefault();
   const clicked = event.target;
   const user_id = user[0].id;
   const product_id = clicked.dataset.id;
+  
   if (clicked.id === "add-to-cart") {
     fetch("http://localhost:3000/carts", createNewCartObj(user_id, product_id))
       .then(resp => resp.json())
       .then(newCartData => console.log(newCartData));
-  }
-};
+    }
+  alert("Added to Cart!")
+    }
+}
 // const createNewCartObj = (user_id, product_id) => {
 //     return {
 //         method: "POST",
@@ -186,14 +192,45 @@ function createNewCartObj(user_id, product_id) {
     })
   };
 }
-const renderNewCart = newCartData => {};
+// const renderNewCart = newCartData => {};
+
+const deleteCart = () => {
+    clicked=event.target
+    const cartId = parseInt(clicked.dataset.id)
+    
+    if(clicked.className==="delete") {
+        fetch(`http://localhost:3000/carts/${cartId}`, createDeleteObj() )
+            .then( resp => resp.json() )
+            .then( deleteData => renderDelete(deleteData) )
+    }
+}
+
+const createDeleteObj = () => {
+    return {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        }
+
+    }   
+
+}
+
+const renderDelete = (deleteData) => {
+    console.log("Deleted")
+}
+
 //event listeners
 loginButton.addEventListener("click", fetchCurrentUser);
 container.addEventListener("click", fetchOneProduct);
 dropdownButton.addEventListener("click", fetchCarts);
 productDetailContainer.addEventListener("click", postCart);
+cartItemList.addEventListener('click', deleteCart)
 //run it
 fetchProducts();
+
+
 
 //  <li>
 //    <a href="" data-tip="Add to Cart">
