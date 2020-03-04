@@ -34,9 +34,9 @@ const renderProducts = product => {
     const card = `<div class="col-md-3 col-sm-6">
             <div class="product-grid6">
                 <div class="product-image6">
-                    <a href="#">
+                    
                         <img class="pic-1" src=${product.image_url}>
-                    </a>
+                    
                 </div>
                 <div class="product-content">
                     <h3 class="title"><a href="#">${product.name}</a></h3>
