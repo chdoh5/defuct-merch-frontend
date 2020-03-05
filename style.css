@@ -17,6 +17,9 @@ p {
   color: black;
 }
 /* Headings */
+/* .big-title {
+    color: black;
+} */
 .big-heading {
   font-family: "Montserrat-Black";
   font-size: 3.5rem;
@@ -28,11 +31,22 @@ p {
   line-height: 1.5;
   margin-top: 5%
 }
+.form-inline {
+    color: #7fcd91;
+}
 /* Containers */
 .container-fluid {
   padding: 3% 12% 7%;
   text-align: center;
+  color:black;
 }
+
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    min-width: 100vh;
+    overflow: auto;
+  }
 
 /* Sections */
 .colored-section {
@@ -51,6 +65,9 @@ p {
   padding: 1% 1% 
 
 }
+.dropdown-menu{
+}
+
 .navbar-brand {
   font-family: "Ubuntu";
   font-size: 2.5rem;
@@ -70,7 +87,7 @@ p {
 /* Title Section */
 #title {
   background-color: whitesmoke;
-  color: black;
+  color: #7fcd91;
   text-align: left;
 }
 #title .container-fluid {
