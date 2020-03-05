@@ -20,6 +20,9 @@ p {
 /* .big-title {
     color: black;
 } */
+.right {
+    right: 0px;
+}
 .big-heading {
   font-family: "Montserrat-Black";
   font-size: 3.5rem;
@@ -44,8 +47,9 @@ p {
 .flex-container {
     display: flex;
     flex-direction: row;
-    min-width: 100vh;
+    min-width: 30vh;
     overflow: auto;
+    padding-right: 4%
   }
 
 /* Sections */

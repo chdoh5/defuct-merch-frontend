@@ -13,6 +13,7 @@ const cartDropdown = document.getElementById("cart-dropdown");
 const dropdownButton = document.getElementById("navbarDropdown");
 const cartItemList = document.getElementById("cart-item-list");
 const signoutButton = document.getElementById("signout");
+const total= document.getElementById('total')
 
 const fetchProducts = () => {
   fetch("http://localhost:3000/products")
@@ -164,8 +165,9 @@ const renderCarts = cartData => {
     cartItemList.innerText = "Cart Empty";
   } else {
     currentCart.forEach(cart => {
-      const li = `<li>${cart.product.name}.....${cart.product.price}&emsp;<i class="far fa-times-circle" data-id="${cart.id}"></i></li>`;
+      const li = `<li class="flex-container">${cart.product.name}.....$${cart.product.price}&emsp;<i class="far fa-times-circle" data-id="${cart.id}"></i></li>`;
       cartItemList.innerHTML += li;
+
     });
   }
 };
