@@ -39,7 +39,7 @@ const renderProducts = product => {
                     
                 </div>
                 <div class="product-content">
-                    <h3 class="title"><a href="#">${product.name}</a></h3>
+                    <h3  class="title"><a href="#">${product.name}</a></h3>
                     <div class="price">$${product.price}
                     </div>
                 </div>
@@ -47,7 +47,10 @@ const renderProducts = product => {
                     <li class="see-more-button"> <a  data-id=${product.id} id="hi" data-tip="Quick View"><i  data-id=${product.id} class="fa fa-search" ></i></a></li>
                 </ul>
             </div>
-        </div>`;
+        </div>`
+
+
+        
     // const card = `
     //   <div class="product-column col-lg-3 col-md-6">
     //   <div class="card">
@@ -68,7 +71,7 @@ const renderProducts = product => {
 const fetchOneProduct = () => {
   const clicked = event.target;
   const productId = clicked.dataset.id;
-  console.log(clicked);
+  
   if (
     clicked.className === "see-more-button" ||
     clicked.parentElement.id === "hi"
@@ -116,7 +119,7 @@ const renderCurrentUser = currentUserData => {
   userList = currentUserData.filter(data => data.username == userInput.value);
   user = userList;
   if (userList[0]) {
-    loginForm.innerHTML = `Welcome Back ${username}!&emsp;</bur><button id="signout"><a href="javascript:window.location.reload(true)">Sign Out</a></button>`;
+    loginForm.innerHTML = `<style="color:#7fcd91" Welcome Back ${username}!&emsp;</bur><button id="signout"><a href="javascript:window.location.reload(true)">Sign Out</a></button>`;
   } else {
     postNewUser();
   }
@@ -158,14 +161,20 @@ const renderCarts = cartData => {
     cartItemList.innerText = "Cart Empty";
   } else {
     currentCart.forEach(cart => {
-      const li = `<li>${cart.product.name}<button class="delete" data-id="${cart.id}">Delete</button></li>`;
+      const li = `<li>${cart.product.name}&emsp;<i class="far fa-times-circle" data-id="${cart.id}"></i></li>`;
       cartItemList.innerHTML += li;
     });
   }
 };
+
+
+
+
+
 const postCart = () => {
   if (user == "") {
-    alert("Please sign in");
+    alert("Please sign in")
+    window.location.href = "#header";
   } else {
     event.preventDefault();
     const clicked = event.target;
@@ -181,6 +190,7 @@ const postCart = () => {
         .then(newCartData => console.log(newCartData));
     }
     alert("Added to Cart!");
+    window.location.href = "#header";
   }
 };
 const createNewCartObj = (user_id, product_id) => {
@@ -217,7 +227,7 @@ const deleteCart = () => {
   clicked = event.target;
   const cartId = parseInt(clicked.dataset.id);
 
-  if (clicked.className === "delete") {
+  if (clicked.className === "far fa-times-circle") {
     fetch(`http://localhost:3000/carts/${cartId}`, createDeleteObj())
       .then(resp => resp.json())
       .then(deleteData => renderDelete(deleteData));
