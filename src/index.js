@@ -85,9 +85,9 @@ const fetchOneProduct = () => {
 const renderOneProduct = oneProductData => {
   const addToCartButton = document.getElementById("add-to-cart");
   const productInfo = oneProductData.data.attributes;
-  const oneProductDetailCard = `<h1 id='foo'>${productInfo.name}</h1>
+  const oneProductDetailCard = `<h1 class="big-title" id='foo'>${productInfo.name}</h1>
     <img src=${productInfo.image_url} >
-    <h3>$${productInfo.price}</h3>
+    <h3 class="big-title">$${productInfo.price}</h3>
     <p>${productInfo.description}</p>
     <button id="add-to-cart" data-id=${oneProductData.data.id} class="btn btn-info">
       Add to Cart
@@ -119,9 +119,12 @@ const renderCurrentUser = currentUserData => {
   userList = currentUserData.filter(data => data.username == userInput.value);
   user = userList;
   if (userList[0]) {
-    loginForm.innerHTML = `<style="color:#7fcd91" Welcome Back ${username}!&emsp;</bur><button id="signout"><a href="javascript:window.location.reload(true)">Sign Out</a></button>`;
+    loginForm.innerHTML = `Welcome Back ${username}!&emsp;</bur><a class="btn btn-outline-success my-2 my-sm-0 id="signout" href="javascript:window.location.reload(true)">Sign Out</a>`;
   } else {
     postNewUser();
+
+    // id="login-submit" class="btn btn-outline-success my-2 my-sm-0" type="submit"
+
   }
 };
 const postNewUser = () => {
@@ -161,7 +164,7 @@ const renderCarts = cartData => {
     cartItemList.innerText = "Cart Empty";
   } else {
     currentCart.forEach(cart => {
-      const li = `<li>${cart.product.name}&emsp;<i class="far fa-times-circle" data-id="${cart.id}"></i></li>`;
+      const li = `<li>${cart.product.name}.....${cart.product.price}&emsp;<i class="far fa-times-circle" data-id="${cart.id}"></i></li>`;
       cartItemList.innerHTML += li;
     });
   }
