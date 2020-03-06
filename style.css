@@ -16,6 +16,7 @@ p {
   text-align: center;
   color: black;
 }
+
 /* Headings */
 /* .big-title {
     color: black;
@@ -27,6 +28,10 @@ p {
   font-family: "Montserrat-Black";
   font-size: 3.5rem;
   line-height: 1.5;
+}
+#total {
+    font-size: 1.25rem;
+    font-weight:bold;
 }
 .section-heading {
   text-align: center;
