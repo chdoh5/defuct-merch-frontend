@@ -13,7 +13,10 @@ const cartDropdown = document.getElementById("cart-dropdown");
 const dropdownButton = document.getElementById("navbarDropdown");
 const cartItemList = document.getElementById("cart-item-list");
 const signoutButton = document.getElementById("signout");
-const total= document.getElementById('total')
+const totalContainer= document.getElementById('total')
+let sum 
+let total
+
 
 const fetchProducts = () => {
   fetch("http://localhost:3000/products")
@@ -147,7 +150,7 @@ function createNewUser(username) {
 }
 const renderNewUser = newUserData => {
   userList.push(newUserData);
-  loginForm.innerHTML = `Welcome ${username}!!&emsp;</bur><button id="signout"><a href="javascript:window.location.reload(true)">Sign Out</a></button>`;
+  loginForm.innerHTML = `Welcome ${username}!!&emsp;</bur><a class="btn btn-outline-success id="signout" href="javascript:window.location.reload(true)">Sign Out</a>`;
 };
 const fetchCarts = () => {
   if (user == "") {
@@ -160,15 +163,40 @@ const fetchCarts = () => {
   }
 };
 const renderCarts = cartData => {
+    
+     total =[]
   const currentCart = cartData.filter(data => data.user_id === user[0].id);
   if (!currentCart[0]) {
+      
     cartItemList.innerText = "Cart Empty";
+    total=[]
+    
+    
   } else {
+      
     currentCart.forEach(cart => {
-      const li = `<li class="flex-container">${cart.product.name}.....$${cart.product.price}&emsp;<i class="far fa-times-circle" data-id="${cart.id}"></i></li>`;
+      const li = `<li class="flex-container">${cart.product.name}.........$${cart.product.price}.00 <br>------------------------------&emsp;<i class="far fa-times-circle" data-id="${cart.id}"></i>
+    </li>`;
+    
+        total.push(cart.product.price)
       cartItemList.innerHTML += li;
+       sum = total.reduce(function(a, b){
+        return a + b;
+    }, 0)
+
 
     });
+   
+  }
+  if(total[0]) {
+     
+  totalContainer.innerHTML=`Total: $${sum}.00`
+//   totalContainer.style.fontWeight="bold"
+  
+  
+  
+  }else {
+      totalContainer.innerHTML=``
   }
 };
 
@@ -229,6 +257,7 @@ const createNewCartObj = (user_id, product_id) => {
 // // const renderNewCart = newCartData => {};
 
 const deleteCart = () => {
+    
   clicked = event.target;
   const cartId = parseInt(clicked.dataset.id);
 
@@ -237,6 +266,7 @@ const deleteCart = () => {
       .then(resp => resp.json())
       .then(deleteData => renderDelete(deleteData));
   }
+  
 };
 
 const createDeleteObj = () => {
@@ -250,6 +280,7 @@ const createDeleteObj = () => {
 };
 
 const renderDelete = deleteData => {
+    
   console.log("Deleted");
 };
 
